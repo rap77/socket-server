@@ -2,15 +2,15 @@ import { Request, Response } from "express";
 import Server from '../clases/server';
 
 
-export class MensajeService {
-  getMensaje(req: Request, res: Response) {
+export class MensajesService {
+  getMensajes(req: Request, res: Response) {
     return res.status(200).json({
       ok: true,
       mensaje: "Todo esta Correcto"
     });
   }
 
-  postMensaje(req: Request, res: Response) {
+  postMensajes(req: Request, res: Response) {
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
 
@@ -30,7 +30,7 @@ export class MensajeService {
     });
   }
 
-  postMensajeId(req: Request, res: Response) {
+  postMensajesId(req: Request, res: Response) {
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
     const id = req.params.id;

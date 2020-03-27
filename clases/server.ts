@@ -7,7 +7,8 @@ import http from 'http';
 
 import * as socket from '../sockets/socket';
 import { MainController } from '../controller/main.controller';
-import { MensajeController } from '../controller/mensaje.controller';
+import { MensajesController } from '../controller/mensajes.controller';
+import { UsuariosController } from '../controller/usuarios.controller';
 
 class Server {
     private static _instance: Server;
@@ -18,7 +19,8 @@ class Server {
 
     // declaracion del controlador
     mainController: MainController;
-    mensajeController: MensajeController;
+    mensajesController: MensajesController;
+    usuariosController: UsuariosController;
 
     private constructor(){
         this.app = express();
@@ -30,7 +32,8 @@ class Server {
         this.setConfig();
 
         this.mainController = new MainController(this.app);
-        this.mensajeController = new MensajeController(this.app);
+        this.mensajesController = new MensajesController(this.app);
+        this.usuariosController = new UsuariosController(this.app);
     }
 
     public static get instance() {
@@ -54,15 +57,18 @@ class Server {
             //   console.log('Cliente conectado');
 
             // Conectar cliente
-            socket.conectarCliente(cliente);
+            socket.conectarCliente(cliente, this.io);
 
             //Configurando Usuario
             socket.configuraUSuario(cliente,this.io);
+
+            //Obtener usuarios ativos
+            socket.obtenerUSuarios(cliente, this.io);
            
-            // mensajes
+            // mensajess
             socket.mensaje(cliente, this.io);
             // desconectar
-            socket.desconectar(cliente);
+            socket.desconectar(cliente, this.io);
             
         })
     }
